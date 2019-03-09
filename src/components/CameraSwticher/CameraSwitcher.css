@@ -1,0 +1,21 @@
+.camera-switcher {
+    position: absolute;
+    align-self: flex-end;
+}
+
+.camera-switcher__button {
+    background-color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+}
+
+.camera-switcher__button:hover {
+    background-color: #C9C9C9;
+}
+
+.camera-switcher__button:active {
+    background-color: #949494;
+}

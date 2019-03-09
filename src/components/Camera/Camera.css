@@ -1,0 +1,10 @@
+.camera {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: blueviolet;
+}
+
+.camera__message {
+
+}

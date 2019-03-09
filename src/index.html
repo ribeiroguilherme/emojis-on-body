@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="Description" content="Emojis on me">
+
+        <link rel="manifest" href="manifest.json">
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Emojis">
+
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="apple-touch-startup-image" href="./images/favicons/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/favicons/apple-touch-icon.png">
+
+
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicons/favicon-16x16.png">
+        <link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="theme-color" content="#000000">
+
+        <link
+            rel="stylesheet"
+            href="<%=htmlWebpackPlugin.files.chunks.main.css %>"
+        />
+
+        <title>Emojis on me!</title>
+
+    </head>
+
+    <body>
+
+        <div id="root"></div>
+
+        <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+
+        <script>
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", function() {
+                    navigator.serviceWorker
+                        .register("service-worker.js")
+                        .then(
+                            function(registration) {
+                                // Registration was successful
+                                console.log(
+                                    "ServiceWorker registration successful with scope: ",
+                                    registration.scope
+                                );
+                            },
+                            function(err) {
+                                // registration failed :(
+                                console.log(
+                                    "ServiceWorker registration failed: ",
+                                    err
+                                );
+                            }
+                        )
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                });
+            } else {
+                console.log("service worker is not supported");
+            }
+        </script>
+
+    </body>
+
+</html>
