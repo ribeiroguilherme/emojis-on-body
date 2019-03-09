@@ -1,8 +1,8 @@
 {
   "short_name": "Emojis on me",
   "name": "Emojis on me!",
-  "scope": ".",
-  "start_url": "/emojis-on-body",
+  "scope": "/emojis-on-body/",
+  "start_url": "/emojis-on-body/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#ffffff",
