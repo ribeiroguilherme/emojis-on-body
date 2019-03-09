@@ -355,7 +355,7 @@ template {
     justify-content: center;
 }
 
-.dumb {
+.video-player {
     justify-content: center;
     align-items: center;
     display: flex;
