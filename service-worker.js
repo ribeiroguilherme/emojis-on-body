@@ -1,6 +1,6 @@
 // Set this to true for production
-var doCache = true;
-var CACHE_NAME = "emojis-on-me-sw-cache-2";
+var doCache = false;
+var CACHE_NAME = "emojis-on-me-sw-cache-3";
 
 // Delete old caches that are not our current one!
 self.addEventListener("activate", event => {
