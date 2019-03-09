@@ -38,7 +38,7 @@
 
         <link
             rel="stylesheet"
-            href="<%=htmlWebpackPlugin.files.chunks.main.css %>"
+            href="style.css"
         />
 
         <title>Emojis on me!</title>
@@ -49,7 +49,7 @@
 
         <div id="root"></div>
 
-        <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+        <script src="main.js"></script>
 
         <script>
             if ("serviceWorker" in navigator) {
