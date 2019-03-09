@@ -1,12 +1,10 @@
 {
   "short_name": "Emojis",
   "name": "Emojis on me!",
-  "scope": "/emojis-on-body/",
-  "start_url": "/emojis-on-body/",
+  "start_url": "/emojis-on-body",
   "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#5199cb",
+  "background_color": "#5199cb",
   "icons": [
     {
       "src":"splash-icon.png",
