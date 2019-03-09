@@ -1,5 +1,5 @@
 {
-  "short_name": "Emojis",
+  "short_name": "Emojis on me",
   "name": "Emojis on me!",
   "scope": "/emojis-on-body/",
   "start_url": "/emojis-on-body/",
@@ -8,7 +8,7 @@
   "background_color": "#5199cb",
   "icons": [
     {
-      "src":"splash-icon.png",
+      "src":"./images/favicons/splash-screen-icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
