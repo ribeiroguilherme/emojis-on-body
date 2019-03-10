@@ -371,15 +371,19 @@ template {
 }
 
 .video-options__button-camera {
-    background-color: #4CAF50;
+    background-color: white;
     border: none;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    padding: 15px;
     border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+}
+
+.video-options__button-camera:hover {
+    background-color: #C9C9C9;
+}
+
+.video-options__button-camera:active {
+    background-color: #949494;
 }
 
