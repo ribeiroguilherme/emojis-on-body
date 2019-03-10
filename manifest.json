@@ -4,8 +4,8 @@
   "scope": "/emojis-on-body/",
   "start_url": "/emojis-on-body/",
   "display": "standalone",
-  "theme_color": "#5199cb",
-  "background_color": "#5199cb",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "icons": [
     {
       "src":"./images/favicons/splash-screen-icon.png",
