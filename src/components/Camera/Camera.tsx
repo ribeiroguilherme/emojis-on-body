@@ -5,6 +5,8 @@ interface State { permissionGranted: boolean; }
 interface Props {
     viewType: string;
     onVideoStarts: Function;
+    height: number;
+    width: number;
 }
 
 class Camera extends React.PureComponent<Props, State> {
@@ -64,21 +66,20 @@ class Camera extends React.PureComponent<Props, State> {
 
     render() {
         const { permissionGranted } = this.state;
+        const { height, width } = this.props;
+
+        if (permissionGranted === false) {
+            return (
+                <div className="camera__message">Please grant access to the camera</div>
+            );
+        }
 
         return (
-            <div className="camera">
-
-                <video
-                    ref={this.videoElement}
-                    height={300}
-                    width={300}
-                />
-
-                {
-                    permissionGranted === false &&
-                        <div className="camera__message">Please grant access to the camera</div>
-                }
-            </div>
+            <video
+                ref={this.videoElement}
+                height={height}
+                width={width}
+            />
         );
     }
 

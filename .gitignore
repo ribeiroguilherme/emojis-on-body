@@ -1,7 +1,8 @@
 node_modules
 
-# public
+public
 !/public/images
 !/public/manifest.json
 !/public/splash-icon.png
 !/public/service-worker.js
+

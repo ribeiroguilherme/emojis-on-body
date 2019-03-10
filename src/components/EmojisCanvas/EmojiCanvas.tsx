@@ -27,6 +27,8 @@ class EmojiCanvas extends React.Component<Props, State> {
             bodyParts.push(...data);
         });
 
+        console.log(poses);
+
         this.setState({ bodyParts });
     }
 

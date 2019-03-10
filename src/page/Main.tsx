@@ -2,6 +2,7 @@ import * as React from 'react';
 import Camera from '../components/Camera';
 import CameraSwticher from '../components/CameraSwticher';
 import EmojisCanvas from '../components/EmojisCanvas';
+import ViewPortMeasurer from '../components/ViewPortMeasurer';
 import { VIDEO_INPUT } from '../consts';
 import './Main.css';
 
@@ -58,12 +59,20 @@ class Main extends React.Component<{}, State> {
 
         return (
             <div className="screen">
-                <Camera
-                    ref={this.cameraRef}
-                    viewType={viewType}
-                    onVideoStarts={this.handleVideoStart}
-                />
-
+                <ViewPortMeasurer>
+                    {
+                        (height, width) => (
+                            <Camera
+                                ref={this.cameraRef}
+                                viewType={viewType}
+                                onVideoStarts={this.handleVideoStart}
+                                width={width}
+                                height={height}
+                            />
+                        )
+                    }
+                </ViewPortMeasurer>
+{/*
                 {
                     isCameraReady &&
                         <EmojisCanvas
@@ -74,7 +83,7 @@ class Main extends React.Component<{}, State> {
                 {
                     showVideoSwitcher &&
                         <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
-                }
+                } */}
             </div>
         );
     }

@@ -1,0 +1,6 @@
+.view-port-measurer {
+    height: 100vh;
+    width: 100vw;
+    background-color: brown;
+    overflow: hidden;
+}

@@ -28,13 +28,23 @@
             href="<%=htmlWebpackPlugin.files.chunks.main.css %>"
         />
 
+        <style>
+            html, body, main {
+                height: 100vh;
+                width: 100vw;
+                background-color: aquamarine;
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+
         <title>Emojis on me!</title>
 
     </head>
 
     <body>
 
-        <div id="root"></div>
+        <main></main>
 
         <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 

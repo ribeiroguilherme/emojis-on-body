@@ -5,5 +5,5 @@ import 'normalize.css';
 
 render(
     <Main />,
-    document.getElementById('root'),
+    document.getElementsByTagName('main')[0],
 );
