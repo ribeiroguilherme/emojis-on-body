@@ -79,6 +79,8 @@ class Camera extends React.PureComponent<Props, State> {
                 ref={this.videoElement}
                 height={height}
                 width={width}
+                playsInline
+                autoPlay
             />
         );
     }

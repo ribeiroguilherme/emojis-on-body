@@ -9,7 +9,7 @@ interface Props { onSwitchCamera(): void; }
 const CameraSwitcher: React.SFC<Props> = props => (
     <button
         onClick={props.onSwitchCamera}
-        className="camera-switcher camera-switcher__button "
+        className="camera-switcher"
     >
         <img height={IMAGE_HEIGHT} src="./images/video-switcher.png" />
     </button>

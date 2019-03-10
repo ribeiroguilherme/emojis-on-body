@@ -62,28 +62,33 @@ class Main extends React.Component<{}, State> {
                 <ViewPortMeasurer>
                     {
                         (height, width) => (
-                            <Camera
-                                ref={this.cameraRef}
-                                viewType={viewType}
-                                onVideoStarts={this.handleVideoStart}
-                                width={width}
-                                height={height}
-                            />
+                            <React.Fragment>
+                                <Camera
+                                    ref={this.cameraRef}
+                                    viewType={viewType}
+                                    onVideoStarts={this.handleVideoStart}
+                                    width={width}
+                                    height={height}
+                                />
+
+                                {
+                                    showVideoSwitcher &&
+                                        <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
+                                }
+
+                            </React.Fragment>
                         )
                     }
                 </ViewPortMeasurer>
 {/*
-                {
+    <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
+    {
                     isCameraReady &&
                         <EmojisCanvas
                             htmlVideoElement={this.cameraRef.current.videoElement.current}
                         />
-                }
+                }  */ }
 
-                {
-                    showVideoSwitcher &&
-                        <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
-                } */}
             </div>
         );
     }
