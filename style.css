@@ -356,21 +356,23 @@ template {
     position: relative;
 }
 
-.video-player {
+.camera {
     justify-content: center;
     align-items: center;
     display: flex;
-    height: 100%;
-    width: 100%;
     background-color: blueviolet;
 }
 
-.video-options {
+.camera__message {
+
+}
+
+.camera-switcher {
     position: absolute;
     align-self: flex-end;
 }
 
-.video-options__button-camera {
+.camera-switcher__button {
     background-color: white;
     border: none;
     padding: 15px;
@@ -379,11 +381,11 @@ template {
     cursor: pointer;
 }
 
-.video-options__button-camera:hover {
+.camera-switcher__button:hover {
     background-color: #C9C9C9;
 }
 
-.video-options__button-camera:active {
+.camera-switcher__button:active {
     background-color: #949494;
 }
 
