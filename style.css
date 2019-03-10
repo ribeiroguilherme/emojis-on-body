@@ -353,6 +353,7 @@ template {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .video-player {
@@ -362,5 +363,23 @@ template {
     height: 100%;
     width: 100%;
     background-color: blueviolet;
+}
+
+.video-options {
+    position: absolute;
+    align-self: flex-end;
+}
+
+.video-options__button-camera {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 50%;
 }
 
