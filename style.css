@@ -350,42 +350,15 @@ template {
 
 .screen {
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100vw;
     position: relative;
 }
 
-.camera {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    background-color: blueviolet;
+.view-port-measurer {
+    height: 100vh;
+    width: 100vw;
+    background-color: brown;
+    overflow: hidden;
 }
 
-.camera__message {
-
-}
-
-.camera-switcher {
-    position: absolute;
-    align-self: flex-end;
-}
-
-.camera-switcher__button {
-    background-color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 50%;
-    outline: none;
-    cursor: pointer;
-}
-
-.camera-switcher__button:hover {
-    background-color: #C9C9C9;
-}
-
-.camera-switcher__button:active {
-    background-color: #949494;
-}
 
