@@ -24,6 +24,7 @@ class Camera extends React.PureComponent<Props, State> {
     };
 
     componentDidMount() {
+        this.canvasContext = this.canvasElement.current.getContext('2d');
         this.startCamera();
     }
 
@@ -32,26 +33,39 @@ class Camera extends React.PureComponent<Props, State> {
         this.startCamera();
     }
 
-    timerCallback = () => {
+    syncVideoWithCanvas = () => {
         if (this.videoElement.current.paused || this.videoElement.current.ended) {
             return;
         }
 
         this.computeFrame();
 
-        setTimeout(() => this.timerCallback(), 0);
-    }
-
-    syncVideoWithCanvas() {
-        this.canvasContext = this.canvasElement.current.getContext('2d');
-        this.videoElement.current.addEventListener('play', this.timerCallback, false);
+        setTimeout(() => this.syncVideoWithCanvas(), 0);
     }
 
     computeFrame() {
-        const { width, height } = this.props;
-        this.canvasContext.drawImage(this.videoElement.current, 0, 0, width, height);
+        const video = this.videoElement.current;
+        const canvas = this.canvasElement.current;
+        const { videoWidth, videoHeight } = this.videoElement.current;
+        const scale = Math.min(
+            canvas.width / video.videoWidth,
+            canvas.height / video.videoHeight,
+        );
 
-        const frame = this.canvasContext.getImageData(0, 0, width, height);
+        const adjustedWidth = video.videoWidth * scale;
+        const adjustedHeight = video.videoHeight * scale;
+        const adjustedTop = (canvas.height / 2) - (adjustedHeight / 2);
+        const adjustedLeft = (canvas.width / 2) - (adjustedWidth / 2);
+
+        this.canvasContext.drawImage(
+            this.videoElement.current,
+            adjustedLeft,
+            adjustedTop,
+            adjustedWidth,
+            adjustedHeight,
+        );
+
+        const frame = this.canvasContext.getImageData(0, 0, videoWidth, videoHeight);
         const l = frame.data.length / 4;
 
         for (let i = 0; i < l; i += 1) {
@@ -73,10 +87,9 @@ class Camera extends React.PureComponent<Props, State> {
 
         this.currentStream = stream;
 
-        this.syncVideoWithCanvas();
-
         this.videoElement.current.srcObject = stream;
         this.videoElement.current.play().then(() => {
+            this.syncVideoWithCanvas();
             this.props.onVideoStarts();
         });
 
