@@ -357,10 +357,13 @@ template {
 .view-port-measurer {
     height: 100vh;
     width: 100vw;
-    background-color: brown;
+    background-color: #000;
     overflow: hidden;
 }
 
+.camera__video {
+    display: none;
+}
 
 .camera-switcher {
     background-color: white;
