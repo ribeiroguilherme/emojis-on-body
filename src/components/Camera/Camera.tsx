@@ -1,12 +1,15 @@
 import * as React from 'react';
 import './Camera.css';
 
-interface State { permissionGranted: boolean; }
+interface State {
+    permissionGranted: boolean;
+    isEffectInited: boolean;
+}
 interface Props {
     viewType: string;
-    onVideoStarts: Function;
     height: number;
     width: number;
+    effect: any;
 }
 
 class Camera extends React.PureComponent<Props, State> {
@@ -19,12 +22,17 @@ class Camera extends React.PureComponent<Props, State> {
 
     private currentStream: MediaStream = null;
 
+    private effect: any;
+
     state: Readonly<State> = {
         permissionGranted: null,
+        isEffectInited: false,
     };
 
     componentDidMount() {
         this.canvasContext = this.canvasElement.current.getContext('2d');
+        this.effect = new this.props.effect();
+        this.effect.init().then(() => this.setState({ isEffectInited: true }))
         this.startCamera();
     }
 
@@ -34,19 +42,19 @@ class Camera extends React.PureComponent<Props, State> {
     }
 
     syncVideoWithCanvas = () => {
-        if (this.videoElement.current.paused || this.videoElement.current.ended) {
-            return;
-        }
-
-        this.computeFrame();
-
-        setTimeout(() => this.syncVideoWithCanvas(), 0);
+        return new Promise((resolve) => {
+            requestAnimationFrame(() => {
+                this.captureVideoAndAdjust();
+                this.applyEffect()
+                    .then(() => this.syncVideoWithCanvas())
+                    .then(resolve);
+            });
+        });
     }
 
-    computeFrame() {
+    captureVideoAndAdjust() {
         const video = this.videoElement.current;
         const canvas = this.canvasElement.current;
-        const { videoWidth, videoHeight } = this.videoElement.current;
         const scale = Math.min(
             canvas.width / video.videoWidth,
             canvas.height / video.videoHeight,
@@ -54,8 +62,8 @@ class Camera extends React.PureComponent<Props, State> {
 
         const adjustedWidth = video.videoWidth * scale;
         const adjustedHeight = video.videoHeight * scale;
-        const adjustedTop = (canvas.height / 2) - (adjustedHeight / 2);
         const adjustedLeft = (canvas.width / 2) - (adjustedWidth / 2);
+        const adjustedTop = (canvas.height / 2) - (adjustedHeight / 2);
 
         this.canvasContext.drawImage(
             this.videoElement.current,
@@ -64,19 +72,16 @@ class Camera extends React.PureComponent<Props, State> {
             adjustedWidth,
             adjustedHeight,
         );
+    }
 
-        const frame = this.canvasContext.getImageData(0, 0, videoWidth, videoHeight);
-        const l = frame.data.length / 4;
+    async applyEffect() {
+        if (this.state.isEffectInited === false) return;
+        const video = this.videoElement.current;
+        const canvas = this.canvasElement.current;
+        // const frame = this.canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+        await this.effect.apply(this.canvasContext, canvas, video);
 
-        for (let i = 0; i < l; i += 1) {
-            const r = frame.data[i * 4 + 0];
-            const g = frame.data[i * 4 + 1];
-            const b = frame.data[i * 4 + 2];
-            if (g > 100 && r > 100 && b < 43) {
-                frame.data[i * 4 + 3] = 0;
-            }
-        }
-        this.canvasContext.putImageData(frame, 0, 0);
+        // this.canvasContext.putImageData(frame, 0, 0);
     }
 
     async startCamera() {
@@ -88,10 +93,9 @@ class Camera extends React.PureComponent<Props, State> {
         this.currentStream = stream;
 
         this.videoElement.current.srcObject = stream;
-        this.videoElement.current.play().then(() => {
-            this.syncVideoWithCanvas();
-            this.props.onVideoStarts();
-        });
+        this.videoElement.current
+            .play()
+            .then(this.syncVideoWithCanvas);
 
     }
 
