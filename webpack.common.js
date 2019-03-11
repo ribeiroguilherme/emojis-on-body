@@ -44,16 +44,11 @@ module.exports = {
             cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json', '!service-worker.js', '!splash-icon.png', '!images/**'],
         }),
 
-        new MiniCssExtractPlugin({
-            filename: 'style.css',
-        }),
-
         new HtmlWebpackPlugin({
             inject: false,
             template: "./src/index.html",
             filename: "index.html"
         }),
 
-        new webpack.HotModuleReplacementPlugin()
     ]
 };
