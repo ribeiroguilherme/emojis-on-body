@@ -13,7 +13,7 @@ export const NMS_RADIUS = 30.0;
  * Used by the EmojisCanvas
  */
 export const RELEVANT_BODY_PARTS = ['leftEye', 'rightEye'];
-export const MINIMUM_SCORE = 0.60;
+export const MINIMUM_SCORE = 0.30;
 
 /**
  * Used to filter the media devices

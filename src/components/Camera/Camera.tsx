@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ICameraEffect from '../../effects/ICameraEffect';
 import './Camera.css';
 
 interface State {
@@ -22,7 +23,7 @@ class Camera extends React.Component<Props, State> {
 
     private currentStream: MediaStream = null;
 
-    private effect: any;
+    private effect: ICameraEffect;
 
     state: Readonly<State> = {
         permissionGranted: null,

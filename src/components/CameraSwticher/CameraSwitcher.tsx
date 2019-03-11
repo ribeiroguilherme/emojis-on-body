@@ -3,7 +3,9 @@ import './CameraSwitcher.css';
 
 const IMAGE_HEIGHT = '50px';
 
-interface Props { onSwitchCamera(): void; }
+interface Props {
+    onSwitchCamera: () => void;
+}
 
 // tslint:disable-next-line:variable-name
 const CameraSwitcher: React.SFC<Props> = props => (

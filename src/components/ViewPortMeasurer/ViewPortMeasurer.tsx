@@ -8,7 +8,7 @@ interface State {
 }
 
 interface Props {
-    children(width: number, height: number): JSX.Element;
+    children: (width: number, height: number) => JSX.Element;
 }
 
 class ViewPortMeasurer extends React.PureComponent<Props, State> {

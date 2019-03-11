@@ -51,7 +51,8 @@ class Main extends React.Component<{}, State> {
         const { showVideoSwitcher, viewType } = this.state;
 
         return (
-            <div className="screen">
+            <React.Fragment>
+
                 <ViewPortMeasurer>
                     {
                         (height, width) => (
@@ -73,7 +74,7 @@ class Main extends React.Component<{}, State> {
                     }
                 </ViewPortMeasurer>
 
-            </div>
+            </React.Fragment>
         );
     }
 }

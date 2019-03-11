@@ -1,4 +1,5 @@
 import * as posenet from '@tensorflow-models/posenet';
+import ICameraEffect from '../ICameraEffect';
 import {
     IMAGE_SCALE_FACTOR,
     FLIP_HORIZONTAL,
@@ -6,9 +7,8 @@ import {
     RELEVANT_BODY_PARTS,
     MINIMUM_SCORE,
 } from '../../consts';
-// import ICameraEffect from '../ICameraEffect';
 
-export default class EmojiEffect {
+export default class EmojiEffect implements ICameraEffect {
 
     private posenetModel: posenet.PoseNet  = null;
 
@@ -16,24 +16,18 @@ export default class EmojiEffect {
         this.posenetModel = await posenet.load();
     }
 
-    // tslint:disable-next-line:max-line-length
     async apply(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 
         context.fillStyle = '#0000FF';
 
         const frameImageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const positions = await this.findEyesPosition(frameImageData);
+        const poses = await this.findEyesPosition(frameImageData);
 
-        positions.forEach((position) => {
-
-            const x = Math.round(position.position.x);
-            const y = Math.round(position.position.y);
-
-            const adjustedX = x;
-            const adjustedY = y;
+        poses.forEach((pose) => {
+            const { x, y } = pose.position;
 
             context.font = '40px Arial';
-            context.fillText('💋', adjustedX, adjustedY);
+            context.fillText('💋', x, y);
         });
 
     }
@@ -53,4 +47,5 @@ export default class EmojiEffect {
 
         return data;
     }
+
 }
