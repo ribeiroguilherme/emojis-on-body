@@ -3,7 +3,7 @@
  * Used by the posenet model
  */
 export const IMAGE_SCALE_FACTOR = 0.50;
-export const FLIP_HORIZONTAL = true;
+export const FLIP_HORIZONTAL = false;
 export const MIN_PART_CONFIDENCE = 0.1;
 export const MAX_POSE_DETECTIONS = 5;
 export const OUTPUT_STRIDE = 16;

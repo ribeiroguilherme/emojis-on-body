@@ -12,9 +12,9 @@ interface Props {
     effect: any;
 }
 
-class Camera extends React.PureComponent<Props, State> {
+class Camera extends React.Component<Props, State> {
 
-    videoElement = React.createRef<HTMLVideoElement>();
+    private videoElement = React.createRef<HTMLVideoElement>();
 
     private canvasElement = React.createRef<HTMLCanvasElement>();
 
@@ -32,7 +32,7 @@ class Camera extends React.PureComponent<Props, State> {
     componentDidMount() {
         this.canvasContext = this.canvasElement.current.getContext('2d');
         this.effect = new this.props.effect();
-        this.effect.init().then(() => this.setState({ isEffectInited: true }))
+        this.effect.init().then(() => this.setState({ isEffectInited: true }));
         this.startCamera();
     }
 
@@ -42,14 +42,11 @@ class Camera extends React.PureComponent<Props, State> {
     }
 
     syncVideoWithCanvas = () => {
-        return new Promise((resolve) => {
-            requestAnimationFrame(() => {
-                this.captureVideoAndAdjust();
-                this.applyEffect()
-                    .then(() => this.syncVideoWithCanvas())
-                    .then(resolve);
+        this.captureVideoAndAdjust();
+        this.applyEffect()
+            .then(() => {
+                setTimeout(() => this.syncVideoWithCanvas(), 0);
             });
-        });
     }
 
     captureVideoAndAdjust() {
@@ -75,13 +72,11 @@ class Camera extends React.PureComponent<Props, State> {
     }
 
     async applyEffect() {
-        if (this.state.isEffectInited === false) return;
-        const video = this.videoElement.current;
-        const canvas = this.canvasElement.current;
-        // const frame = this.canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-        await this.effect.apply(this.canvasContext, canvas, video);
 
-        // this.canvasContext.putImageData(frame, 0, 0);
+        if (this.state.isEffectInited === false) return;
+
+        const canvas = this.canvasElement.current;
+        return await this.effect.apply(this.canvasContext, canvas);
     }
 
     async startCamera() {

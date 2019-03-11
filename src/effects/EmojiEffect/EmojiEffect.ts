@@ -20,11 +20,12 @@ export default class EmojiEffect {
     }
 
     // tslint:disable-next-line:max-line-length
-    async apply(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, video: HTMLVideoElement) {
+    async apply(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 
-        context.fillStyle = '#FF0000';
+        context.fillStyle = '#0000FF';
 
-        const positions = await this.findEyesPosition(video);
+        const frameImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const positions = await this.findEyesPosition(frameImageData);
 
         positions.forEach((position) => {
 
@@ -76,10 +77,10 @@ export default class EmojiEffect {
         // }
     }
 
-    private async findEyesPosition(videoElement: HTMLVideoElement) {
+    private async findEyesPosition(imageData: ImageData) {
 
         const pose = await this.posenetModel.estimateSinglePose(
-            videoElement,
+            imageData,
             IMAGE_SCALE_FACTOR,
             FLIP_HORIZONTAL,
             OUTPUT_STRIDE,
