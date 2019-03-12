@@ -73,7 +73,7 @@ class Main extends React.Component<{}, State> {
                                 />
 
                                 {
-                                    (isCameraReady) &&
+                                    (hasMultipleCameras && isCameraReady) &&
                                         <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
                                 }
 
