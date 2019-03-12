@@ -1,5 +1,14 @@
-# emojis-on-body
+# Emojis on me!
 
-[] Emojis
-[] Iphone
-[] Testes
+PWA that renders eye emojis on your eyes
+
+
+### Tech stack:
+* React
+* Typescript
+* Tensorflow
+* MediaDevices
+* Webpack
+
+### Link
+https://ribeiroguilherme.github.io/emojis-on-body/

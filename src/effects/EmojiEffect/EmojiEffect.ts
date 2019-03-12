@@ -27,7 +27,7 @@ export default class EmojiEffect implements ICameraEffect {
             const { x, y } = pose.position;
 
             context.font = '40px Arial';
-            context.fillText('💋', x, y);
+            context.fillText('👁', x, y);
         });
 
     }
