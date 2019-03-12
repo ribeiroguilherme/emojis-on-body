@@ -366,7 +366,7 @@ html, body, main {
     display: none;
 }
 
-.camera__message {
+.message {
     background-color: #FFF;
     position: absolute;
     top: 50%;
