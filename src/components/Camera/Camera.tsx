@@ -51,12 +51,23 @@ class Camera extends React.Component<Props, State> {
         const shouldChangeCamera = prevProps.viewType !== this.props.viewType;
 
         if (shouldChangeCamera) {
+            /**
+             * In case the camera changed, all available tracks are stopped, and after
+             * 1 second, the camera gets started again pointing to the desired direction
+             *
+             * Some delay is added, otherwise the user can get `NotReadableError`, meaning that
+             * the device is already in use. Still improvements to be done, since this error still
+             * poping up sometimes.
+             */
             this.stopMediaTracks();
-            this.startCamera();
+            setTimeout(() => {
+                this.startCamera();
+            // tslint:disable-next-line:align
+            }, 1000);
             return;
         }
 
-        if (!this.state.isCameraInitialized) {
+        if (!this.state.isCameraInitialized && this.state.permissionGranted) {
             this.startCamera();
         }
     }
@@ -145,7 +156,13 @@ class Camera extends React.Component<Props, State> {
             const stream = await navigator.mediaDevices.getUserMedia(constraint);
             return stream;
         } catch (error) {
-            this.setState({ permissionGranted: false });
+
+            if (error.name === 'NotAllowedError') {
+                this.setState({ permissionGranted: false });
+            }
+            if (error.name === 'NotReadableError') {
+                alert('Device not started: Seems like it is already in use');
+            }
             return null;
         }
     }
