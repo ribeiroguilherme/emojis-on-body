@@ -18,7 +18,7 @@ class Main extends React.Component<{}, State> {
     state: Readonly<State> = {
         isCameraReady: false,
         hasMultipleCameras: false,
-        viewType: 'environment',
+        viewType: 'user',
     };
 
     componentDidMount() {
