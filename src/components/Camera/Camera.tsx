@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ICameraEffect from '../../effects/ICameraEffect';
 import ICameraStatus from './ICameraStatus';
+import Message from '../Message';
 import './Camera.css';
 
 interface State {
@@ -151,16 +152,12 @@ class Camera extends React.Component<Props, State> {
 
                 {
                     permissionGranted === false &&
-                        <div className="camera__message">
-                            Please grant access to the camera
-                        </div>
+                        <Message>Please grant access to the camera</Message>
                 }
 
                 {
                     (permissionGranted && !isEffectInitialized) &&
-                        <div className="camera__message">
-                            Initializing effect..
-                        </div>
+                        <Message>Initializing effect..</Message>
                 }
                 <video
                     ref={this.videoElement}

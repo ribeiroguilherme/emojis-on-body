@@ -1,13 +1,3 @@
 .camera__video {
     display: none;
 }
-
-.camera__message {
-    background-color: #FFF;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border-radius: 10px;
-}
