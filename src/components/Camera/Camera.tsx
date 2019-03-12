@@ -1,16 +1,19 @@
 import * as React from 'react';
 import ICameraEffect from '../../effects/ICameraEffect';
+import ICameraStatus from './ICameraStatus';
 import './Camera.css';
 
 interface State {
     permissionGranted: boolean;
-    isEffectInited: boolean;
+    isEffectInitialized: boolean;
+    isCameraInitialized: boolean;
 }
 interface Props {
     viewType: string;
     height: number;
     width: number;
-    effect: any;
+    effect: any; // !!
+    onStatusChange: (cameraStatus: ICameraStatus) => void;
 }
 
 class Camera extends React.Component<Props, State> {
@@ -27,19 +30,32 @@ class Camera extends React.Component<Props, State> {
 
     state: Readonly<State> = {
         permissionGranted: null,
-        isEffectInited: false,
+        isEffectInitialized: false,
+        isCameraInitialized: false,
     };
 
     componentDidMount() {
         this.canvasContext = this.canvasElement.current.getContext('2d');
         this.effect = new this.props.effect();
-        this.effect.init().then(() => this.setState({ isEffectInited: true }));
+        this.effect.init().then(() => {
+            this.setState({ isEffectInitialized: true });
+        });
+
         this.startCamera();
     }
 
-    componentDidUpdate() {
-        this.stopMediaTracks();
-        this.startCamera();
+    componentDidUpdate(prevProps: Props) {
+
+        const shouldChangeCamera = prevProps.viewType !== this.props.viewType;
+
+        if (shouldChangeCamera) {
+            this.stopMediaTracks();
+            this.startCamera();
+        }
+
+        if (!this.state.isCameraInitialized || shouldChangeCamera) {
+            this.startCamera();
+        }
     }
 
     syncVideoWithCanvas = () => {
@@ -63,6 +79,7 @@ class Camera extends React.Component<Props, State> {
         const adjustedLeft = (canvas.width / 2) - (adjustedWidth / 2);
         const adjustedTop = (canvas.height / 2) - (adjustedHeight / 2);
 
+        this.canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         this.canvasContext.drawImage(
             this.videoElement.current,
             adjustedLeft,
@@ -74,7 +91,7 @@ class Camera extends React.Component<Props, State> {
 
     async applyEffect() {
 
-        if (this.state.isEffectInited === false) return;
+        if (this.state.isEffectInitialized === false) return;
 
         const canvas = this.canvasElement.current;
         return await this.effect.apply(this.canvasContext, canvas);
@@ -88,10 +105,19 @@ class Camera extends React.Component<Props, State> {
 
         this.currentStream = stream;
 
-        this.videoElement.current.srcObject = stream;
-        this.videoElement.current
-            .play()
-            .then(this.syncVideoWithCanvas);
+        this.setState({
+            isCameraInitialized: true,
+            permissionGranted: true,
+        // tslint:disable-next-line:align
+        }, () => {
+            this.props.onStatusChange({ isCameraReady: true });
+
+            this.videoElement.current.srcObject = stream;
+            this.videoElement.current
+                .play()
+                .then(this.syncVideoWithCanvas);
+
+        });
 
     }
 
@@ -117,17 +143,25 @@ class Camera extends React.Component<Props, State> {
     }
 
     render() {
-        const { permissionGranted } = this.state;
+        const { permissionGranted, isEffectInitialized } = this.state;
         const { height, width } = this.props;
-
-        if (permissionGranted === false) {
-            return (
-                <div className="camera__message">Please grant access to the camera</div>
-            );
-        }
 
         return (
             <React.Fragment>
+
+                {
+                    permissionGranted === false &&
+                        <div className="camera__message">
+                            Please grant access to the camera
+                        </div>
+                }
+
+                {
+                    (permissionGranted && !isEffectInitialized) &&
+                        <div className="camera__message">
+                            Initializing effect..
+                        </div>
+                }
                 <video
                     ref={this.videoElement}
                     height={height}

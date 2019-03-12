@@ -1,20 +1,23 @@
 import * as React from 'react';
 import Camera from '../components/Camera';
 import CameraSwticher from '../components/CameraSwticher';
+import ICameraStatus from '../components/Camera/ICameraStatus';
 import ViewPortMeasurer from '../components/ViewPortMeasurer';
 import EmojiEffect from '../effects/EmojiEffect';
 import { VIDEO_INPUT } from '../consts';
 import './Main.css';
 
 interface State {
-    showVideoSwitcher: boolean;
+    hasMultipleCameras: boolean;
     viewType: 'user' | 'environment';
+    isCameraReady: boolean;
 }
 
 class Main extends React.Component<{}, State> {
 
     state: Readonly<State> = {
-        showVideoSwitcher: false,
+        isCameraReady: false,
+        hasMultipleCameras: false,
         viewType: 'environment',
     };
 
@@ -23,7 +26,7 @@ class Main extends React.Component<{}, State> {
     }
 
     enableVideoSwitcher() {
-        this.setState({ showVideoSwitcher: true });
+        this.setState({ hasMultipleCameras: true });
     }
 
     handleSwitchCamera = () => {
@@ -34,6 +37,10 @@ class Main extends React.Component<{}, State> {
         } else {
             this.setState({ viewType: 'user' });
         }
+    }
+
+    handleStatusChange = ({ isCameraReady } : ICameraStatus) => {
+        this.setState({ isCameraReady });
     }
 
     async verifyAvailableVideoDevices() {
@@ -48,7 +55,7 @@ class Main extends React.Component<{}, State> {
     }
 
     render() {
-        const { showVideoSwitcher, viewType } = this.state;
+        const { isCameraReady, hasMultipleCameras, viewType } = this.state;
 
         return (
             <React.Fragment>
@@ -62,10 +69,11 @@ class Main extends React.Component<{}, State> {
                                     width={width}
                                     height={height}
                                     effect={EmojiEffect}
+                                    onStatusChange={this.handleStatusChange}
                                 />
 
                                 {
-                                    showVideoSwitcher &&
+                                    (isCameraReady) &&
                                         <CameraSwticher onSwitchCamera={this.handleSwitchCamera} />
                                 }
 
