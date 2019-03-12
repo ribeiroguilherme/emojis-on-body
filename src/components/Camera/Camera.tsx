@@ -37,6 +37,7 @@ class Camera extends React.Component<Props, State> {
 
     componentDidMount() {
         this.canvasContext = this.canvasElement.current.getContext('2d');
+
         this.effect = new this.props.effect();
         this.effect.init().then(() => {
             this.setState({ isEffectInitialized: true });
@@ -52,13 +53,17 @@ class Camera extends React.Component<Props, State> {
         if (shouldChangeCamera) {
             this.stopMediaTracks();
             this.startCamera();
+            return;
         }
 
-        if (!this.state.isCameraInitialized || shouldChangeCamera) {
+        if (!this.state.isCameraInitialized) {
             this.startCamera();
         }
     }
 
+    /**
+     * Store the image in the canvas, and apply on it the effect.
+     */
     syncVideoWithCanvas = () => {
         this.captureVideoAndAdjust();
         this.applyEffect()
@@ -67,6 +72,10 @@ class Camera extends React.Component<Props, State> {
             });
     }
 
+    /**
+     * As the video isn't full screen, this method captures its size and create a canvas
+     * element with the same dimensions as the video has.
+     */
     captureVideoAndAdjust() {
         const video = this.videoElement.current;
         const canvas = this.canvasElement.current;
@@ -90,6 +99,10 @@ class Camera extends React.Component<Props, State> {
         );
     }
 
+    /**
+     * Once the effect object is ready to be used, it starts to apply the  it
+     * visual effects on the canvas element
+     */
     async applyEffect() {
 
         if (this.state.isEffectInitialized === false) return;
@@ -137,6 +150,10 @@ class Camera extends React.Component<Props, State> {
         }
     }
 
+    /**
+     * Method that stops any stream in case if there is one already.
+     * It is used when the user switch cameras
+     */
     stopMediaTracks() {
         if (this.currentStream) {
             this.currentStream.getTracks().forEach(track => track.stop());
