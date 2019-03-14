@@ -1,5 +1,7 @@
 node_modules
 
+.gitconfig
+
 public
 !/public/images
 !/public/manifest.json
